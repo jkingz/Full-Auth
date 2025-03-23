@@ -1,0 +1,46 @@
+[project]
+name = "full-auth"
+version = "0.1.0"
+description = "Full auth django-react/nextjs project"
+readme = "README.md"
+requires-python = ">=3.13.2"
+dependencies = [
+    "boto3>=1.37.18",
+    "dj-database-url>=2.3.0",
+    "django>=5.1.7",
+    "django-cors-headers>=4.7.0",
+    "django-filter>=25.1",
+    "django-ses>=4.4.0",
+    "django-storages>=1.14.5",
+    "django-templated-mail>=1.1.1",
+    "djangorestframework>=3.15.2",
+    "djoser>=2.3.1",
+    "gunicorn>=23.0.0",
+    "psycopg2>=2.9.10",
+    "pyjwt>=2.9.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "pytest-django>=4.10.0",
+    "python-dotenv>=1.0.1",
+    "s3transfer>=0.11.4",
+    "social-auth-app-django>=5.4.3",
+    "social-auth-core>=4.5.6",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.2",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
+
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
