@@ -21,6 +21,7 @@ dependencies = [
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
     "pytest-django>=4.10.0",
+    "pytest-factoryboy>=2.7.0",
     "python-dotenv>=1.0.1",
     "s3transfer>=0.11.4",
     "social-auth-app-django>=5.4.3",
