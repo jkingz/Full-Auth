@@ -5,7 +5,7 @@ from django.urls import reverse
 from pytest_factoryboy import register
 from rest_framework import status
 from rest_framework.test import APIClient
-from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 from users.models import UserAccount
 
@@ -19,6 +19,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     email = factory.Sequence(lambda n: f'user{n}@example.com')
     password = factory.PostGenerationMethodCall('set_password', 'testpass123')  # Hash password
     is_superuser = False  # Default to regular user
+
     @classmethod
     def _after_postgeneration(cls, instance, create, results=None):
         """Override to explicitly save the instance after postgeneration hooks."""
@@ -42,10 +43,17 @@ def user(db, user_factory):
     """Fixture to create a normal user"""
     return user_factory()
 
+
 @pytest.fixture
 def access_token(user):
     """Fixture to generate JWT token for user authentication"""
     return str(AccessToken.for_user(user))
+
+
+@pytest.fixture
+def refresh_token(user):
+    """Fixture to generate JWT refresh token for user authentication"""
+    return str(RefreshToken.for_user(user))
 
 
 @pytest.fixture
@@ -144,3 +152,29 @@ class TestCustomTokenObtainPairView:
 
         # Assert unauthorized status
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, f'Unexpected response: {response.json()}'
+
+
+@pytest.mark.django_db
+class TestCustomTokenRefreshView:
+    @pytest.mark.parametrize('token_source', ['cookie', 'body'])
+    def test_refresh_token(self, api_client, urls, refresh_token, token_source):
+        """Test token refresh from cookie and request body"""
+
+        if token_source == 'cookie':
+            api_client.cookies['refresh'] = refresh_token
+            response = api_client.post(urls['refresh'], {}, format='json')
+        else:
+            response = api_client.post(urls['refresh'], {'refresh': refresh_token}, format='json')
+        assert response.status_code == 200, f'Unexpected response: {response.json()}'
+
+    def test_refresh_token_invalid_token(self, api_client, urls):
+        """Test token refresh with invalid token"""
+        response = api_client.post(urls['refresh'], {'refresh': 'invalid_token'}, format='json')
+        assert response.status_code == 401, f'Unexpected response: {response.json()}'
+        assert response.json()['detail'] == 'Token is invalid or expired'
+
+    def test_refresh_token_missing_token(self, api_client, urls):
+        """Test token refresh with missing token"""
+        response = api_client.post(urls['refresh'], {}, format='json')
+        assert response.status_code == 400, f'Unexpected response: {response.json()}'
+        
