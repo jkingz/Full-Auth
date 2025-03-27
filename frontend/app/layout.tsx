@@ -1,7 +1,9 @@
 import { Footer, Navbar } from '@/components/common';
+import Provider from '@/redux/provider';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+
 const inter = Inter({
   subsets: ['latin'],
 });
@@ -19,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        <div>{children}</div>
-        <Footer />
+        <Provider>
+          <Navbar />
+          <div>{children}</div>
+          <Footer />
+        </Provider>
       </body>
     </html>
   );
