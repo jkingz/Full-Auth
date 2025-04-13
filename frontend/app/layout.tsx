@@ -1,4 +1,5 @@
 import { Footer, Navbar } from '@/components/common';
+import { Setup } from '@/components/utils';
 import Provider from '@/redux/provider';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
@@ -22,8 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Provider>
+          <Setup />
           <Navbar />
-          <div>{children}</div>
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 my-8">
+            {children}
+          </div>
           <Footer />
         </Provider>
       </body>

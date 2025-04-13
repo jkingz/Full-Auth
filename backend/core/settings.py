@@ -111,18 +111,18 @@ if 'test' in sys.argv or 'pytest' in sys.modules:
         'NAME': ':memory:',
     }
 # if DEVELOPMENT_MODE is True:
-# 	DATABASES = {
-# 		'default': {
-# 			'ENGINE': 'django.db.backends.sqlite3',
-# 			'NAME': BASE_DIR / 'DATABASE_URL',
-# 		}
-# 	}
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'DATABASE_URL',
+#         }
+#     }
 # elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-# 	if getenv('DATABASE_URL', None) is None:
-# 		raise Exception('DATABASE_URL environment variable not defined')
-# 	DATABASES = {
-# 		'default': dj_database_url.parse(getenv('DATABASE_URL')),
-# 	}
+#     if getenv('DATABASE_URL', None) is None:
+#         raise Exception('DATABASE_URL environment variable not defined')
+#     DATABASES = {
+#         'default': dj_database_url.parse(getenv('DATABASE_URL')),
+#     }
 
 # Email settings
 

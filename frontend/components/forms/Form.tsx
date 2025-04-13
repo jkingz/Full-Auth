@@ -1,7 +1,6 @@
+import { Spinner } from '@/components/common';
 import { Input } from '@/components/forms';
 import { ChangeEvent, FormEvent } from 'react';
-
-// import { Spinner } from '@/components/common';
 
 interface Config {
   labelText: string;
@@ -52,7 +51,7 @@ export default function Form({
           className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           disabled={isLoading}
         >
-          {/* {isLoading ? <Spinner sm /> : `${btnText}`} */}
+          {isLoading ? <Spinner sm /> : `${btnText}`}
         </button>
       </div>
     </form>
